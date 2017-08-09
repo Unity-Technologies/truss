@@ -92,6 +92,10 @@ import (
 	"strings"
 	"context"
 
+	{{ if len .HTTPHelper.Methods -}}
+		"github.com/golang/protobuf/jsonpb"
+	{{- end }}
+
 	"github.com/go-kit/kit/endpoint"
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/pkg/errors"
@@ -227,7 +231,7 @@ func contextValuesToHttpHeaders(keys []string) httptransport.RequestFunc {
 		}
 
 		var resp pb.{{GoName $method.ResponseType}}
-		if err = json.Unmarshal(buf, &resp); err != nil {
+		if err = jsonpb.UnmarshalString(string(buf), &resp); err != nil {
 			return nil, errorDecoder(buf)
 		}
 
