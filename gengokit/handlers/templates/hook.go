@@ -56,6 +56,22 @@ func InterruptHandler(errc chan<- error) {
 
 	errc <- terminateError
 }
+
+func Report(response, request interface{}, method string) {
+	fmt.Println("Client Requested with:")
+	fmt.Println(request)
+	fmt.Println("Server Responded with:")
+	fmt.Println(response)
+	/*
+	buf, err := json.MarshalIndent(response, "", "  ")
+	if nil != err {
+		fmt.Fprintf(os.Stderr, "Failed to convert response to JSON: %v\n%s\n",
+			err, buf)
+	} else {
+		fmt.Printf("%s\n", buf)
+	}
+	*/
+}
 `
 
 const HookReport = `
